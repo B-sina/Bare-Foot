@@ -25,12 +25,12 @@
               <div class="navbar-nav">
                 
                   <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
+                    {% if current_user.is_authenticated %}
                       <li class="nav-item">
-                        <a class="nav-link" href="#">CurrentUser</a>
+                        <a class="nav-link" href="{{url_for('auth.account')}}">Account</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="/logout">LogOut</a>
+                        <a class="nav-link" href="{{url_for('auth.logout')}}">LogOut</a>
                       </li>
                       <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -38,10 +38,10 @@
                       </form>
                     {% else %}
                     <li class="nav-item">
-                      <a class="nav-link" href="/login">LogIn</a>
+                      <a class="nav-link" href="{{url_for('auth.login')}}">LogIn</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="/sign_up">SignUp</a>
+                      <a class="nav-link" href="{{url_for('auth.sign_up')}}">SignUp</a>
                     </li>
                     {% endif%}
                   </ul>

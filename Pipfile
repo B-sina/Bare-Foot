@@ -8,6 +8,12 @@ flask = "*"
 flask-login = "*"
 flask-sqlalchemy = "*"
 flask-admin = "*"
+flask-bcrypt = "*"
+pillow = "*"
+flask-security = "*"
+flask-restful = "*"
+flask-restplus = "*"
+werkzeug = "==0.16.1"
 
 [dev-packages]
 
