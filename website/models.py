@@ -74,14 +74,13 @@ class Product(db.Model):
 
     # product name.
     name = db.Column(db.String(length=50))
-    code_bar = db.Column(db.String(50), unique=True, nullable=False )
     # price 
     price = db.Column(db.Integer, nullable=False)
     # shoe size
     shoe_size = db.Column(db.Float, nullable=False)
 
     # description
-    description = db.Column(db.String(150), unique=True)
+    description = db.Column(db.String(150))
     # availability
     available = db.Column(db.Boolean, nullable=False)
     # categories
@@ -96,12 +95,14 @@ class Product(db.Model):
 
    
     def __repr__(self):
-        return "<Product(id='%s', order_date='%s', user_id='%s',address_user='%s',code_bar='%s')>" % (
+        return "<Product(id='%s', price='%s', shoe_size='%s',description='%s',available='%s',categories='%s',item_picture='%s')>" % (
             self.id,
-            self.order_date,
-            self.user_id,
-            self.address_user,
-            self.code_bar
+            self.price,
+            self.shoe_size,
+            self.description,
+            self.available,
+            self.categories,
+            self.item_picture
             
         )
 class Ordersbatch(db.Model):

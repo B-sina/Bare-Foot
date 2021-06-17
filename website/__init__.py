@@ -4,7 +4,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from os import path
-
+# from flask_cors import CORS
+from flask_cors import CORS
 
 
 from flask_login import LoginManager, login_manager
@@ -12,17 +13,19 @@ from flask_login import LoginManager, login_manager
 db = SQLAlchemy()
 DB_NAME = "shopping.db"
 admin = Admin()
-
+cor = CORS()
 
 def create_app():
     app = Flask(__name__)
-    
+    # CORS(app)
+
     app.config['SECRET_KEY'] = 'sina&dan'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # initialize our app
     db.init_app(app)
+    cor.init_app(app)
     # admin.init_app(app)
    
     

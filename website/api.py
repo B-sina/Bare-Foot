@@ -1,10 +1,11 @@
 
 from datetime import datetime
 import re
+import csv
 from flask import Blueprint, request
 import logging
 from flask_login import login_user, login_required, logout_user, current_user
-from .models import Order, Product, Review, User
+from website.models import Order, Product, Review, User
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import uuid
@@ -23,7 +24,8 @@ api = Api(api_blue)
 class Register(Resource):
     @staticmethod
     def post():
-
+        print(request.json)
+        print('==================================================================================================================')
         try:
             # Get full_name, password and email.
             full_name, password, email = (
@@ -235,7 +237,7 @@ class Reviews(Resource):
         'product_id': fields.Integer,
         'user_id': fields.Integer,
         'rate': fields.Integer,
-        "date": fields.datetime
+        "date": fields.DateTime
 
     }
 
@@ -305,6 +307,91 @@ class Reviews(Resource):
         return {"message": "review is not found"}, 404
 
 
+#products
+class products(Resource):
+    resource_fields = {
+        'id': fields.Integer,
+        'name': fields.String,
+        'price': fields.Integer,
+        'shoe_size': fields.Float,
+        'description': fields.String,
+        'available': fields.Boolean,
+        'categories': fields.String,
+        'item_picture': fields.String,
+       
+    }
+
+    @staticmethod
+    # @login_required
+    @marshal_with(resource_fields)
+    def get(id):
+        product = Product.query.filter_by(id=id).first()
+        if not product:
+            return {"message": "product not found"}, 404
+        else:
+            return product, 200
+
+    @staticmethod
+    @login_required
+    def delete(id):
+        if current_user.user_role == "admin":
+            product = Product.query.filter_by(
+                id=id).first()
+
+            if product:
+                db.session.delete(product)
+                db.session.commit()
+                return {"message": "product has been deleted"}, 200
+        else:
+
+            return {"message": "operation can not be performed by this user"}, 404
+
+    @staticmethod
+    @login_required
+    def patch(id):
+        if current_user.user_role == "admin":
+            # try:
+            #     # Get user email and password.
+            #     name, price, shoe_size, description, categories, item_picture = (
+            #         request.json.get("name").strip(),
+            #         request.json.get("price"),
+            #         request.json.get("shoe_size"),
+            #         request.json.get("description").strip(),
+            #         request.json.get("categories").strip(),
+            #         request.json.get("item_picture").strip(),
+            #         # request.json.get("code_bar").strip(),
+            #     )
+
+            # except Exception as why:
+
+            #     # Log input strip or etc. errors.
+            #     logging.info("Invalid Entity. " + str(why))
+
+            #     # Return invalid input error.
+
+            #     return {"message": "Invalid input."}, 422
+            products = Product.query.filter_by(
+                id=id).first()
+            if products:
+
+                products.name = request.json.get("name")
+                products.price = request.json.get("price")
+                products.shoe_size = request.json.get("shoe_size")
+                products.description = request.json.get("description")
+                products.categories = request.json.get("categories")
+                products.item_picture = request.json.get(
+                    "item_picture")
+                products.available = request.json.get("available")
+
+                # Commit session.
+                db.session.commit()
+                return {"status": "product item has be Editted."}
+        else:
+            return {"message": "this operation can not be performed by this user"}, 404
+
+
+
+# add product
 class Addproduct(Resource):
     resource_fields = {
         'id': fields.Integer,
@@ -319,23 +406,30 @@ class Addproduct(Resource):
     }
 
     @staticmethod
-    @login_required
+    # @login_required
     @marshal_with(resource_fields)
     def get():
-        if current_user.user_role == "admin":
+        # if current_user.user_role == "admin":
 
-            product = Product.query.all()
-            if not product:
+        product = Product.query.all()
+        print(product)
+        if not product:
 
-                return {"message": "product not found"}, 404
-            else:
-                return product, 200
+            return {"message": "product not found"}, 404
         else:
-            return {"message": "the operation can not be operated by this user"}, 404
+            return product, 200
+        # else:
+        #     return {"message": "the operation can not be operated by this user"}, 404
 
     @staticmethod
     @login_required
     def post():
+        # f = open("shoppings.csv")
+        # reader = csv.reader(f)
+        # for id, name, price, shoe_size, categories in reader:
+        #     pas = Product(id=id, name=name, price=price, shoe_size=shoe_size, categories=categories)
+        #     db.session.add(pas)
+        #     db.session.commit()
         if current_user.user_role == "admin":
             try:
                 # Get user email and password.
@@ -359,7 +453,7 @@ class Addproduct(Resource):
                 return {"message": "Invalid input."}, 422
 
             p = Product(name=name, price=price, shoe_size=shoe_size, description=description,
-                        available=True, categories=categories, item_picture=item_picture, code_bar=str(uuid.uuid4()))
+                        available=True, categories=categories, item_picture=item_picture)
 
             # Add user to session.
             db.session.add(p)
@@ -369,66 +463,51 @@ class Addproduct(Resource):
             return {"status": "product item has be recodered."}
         else:
             return {"message" : "this operation can not be performed by this user"}, 404
+class carts(Resource):
+    resource_fields = {
+        'id': fields.Integer,
+        'product_name': fields.String,
+        'quantity': fields.Integer,
+        'location': fields.String,
+
+    }
 
     @staticmethod
     @login_required
-    def delete(code_bar):
-        if current_user.user_role == "admin":
-            product = Product.query.filter_by(
-                code_bar=code_bar).first()
-
-            if product:
-                db.session.delete(product)
-                db.session.commit()
-                return {"message": "product has been deleted"}, 200
-        else:
-
-            return {"message": "operation can not be performed by this user"}, 404
-
+    @marshal_with(resource_fields)
+    def get(id):
+        if current_user.user_role == "user":
+            orders = Order.query.filter_by(id=id).first()
+            if not orders:
+                return {"messsage": "order is not found"}, 404
+            else:
+                return orders, 200
+    
+           
     @staticmethod
     @login_required
-    def patch() :
-        if current_user.user_role == "admin":
-            # try:
-            #     # Get user email and password.
-            #     name, price, shoe_size, description, categories, item_picture = (
-            #         request.json.get("name").strip(),
-            #         request.json.get("price"),
-            #         request.json.get("shoe_size"),
-            #         request.json.get("description").strip(),
-            #         request.json.get("categories").strip(),
-            #         request.json.get("item_picture").strip(),
-            #         # request.json.get("code_bar").strip(),
-            #     )
 
-            # except Exception as why:
+    def delete(id):
+        # user = User.query.filter_by(user_role = request.json.get("user_role")).first()
+        # current_users = user
+        if current_user.user_role == "user":
 
-            #     # Log input strip or etc. errors.
-            #     logging.info("Invalid Entity. " + str(why))
+            order = Order.query.filter_by(id=id).first()
 
-            #     # Return invalid input error.
+            if order:
 
-            #     return {"message": "Invalid input."}, 422
-            name_of_product = Product.id
-            products = Product.query.filter_by(id=request.json.get('id')).first()
-            if products:
-                
-                products.name = request.json.get("name").strip()
-                products.price = request.json.get("price")
-                products.shoe_size = request.json.get("shoe_size")
-                products.description = request.json.get("description").strip()
-                products.categories = request.json.get("categories").strip()
-                products.item_picture = request.json.get("item_picture").strip()
-                products.available = request.json.get("available")
-
-
-                # Commit session.
+                db.session.delete(order)
                 db.session.commit()
-                return {"status": "product item has be Editted."}
-        else:
-            return {"message" : "this operation can not be performed by this user"}, 404
 
+                return {"message": "order has been deleted"}, 200
+            else:
+                return {"message": "order is not found"}, 404
+        else:
+            return {"message": "this operation can not be operated by this user"}, 404
+
+   
 class Addcart(Resource):
+
     resource_fields = {
         'id': fields.Integer,
         'product_name': fields.String,
@@ -490,36 +569,16 @@ class Addcart(Resource):
         else:
             return {"message": "operation can not be performed by this user"}, 404
 
-    @staticmethod
-    @login_required
+   
 
 
-    def delete(id):
-        # user = User.query.filter_by(user_role = request.json.get("user_role")).first()
-        # current_users = user
-        if current_user.user_role == "user":
-
-            order = Order.query.filter_by(id=id).first()
-
-            if order:
-
-                db.session.delete(order)
-                db.session.commit()
-
-                return {"message": "order has been deleted"}, 200
-            else:
-                return {"message": "order is not found"}, 404
-        else:
-            return {"message": "this operation can not be operated by this user"}, 404
-
-
-
-api.add_resource(Register, "register")
+api.add_resource(Register, "/register")
 api.add_resource(Login, "/login")
 api.add_resource(Logout, "/logout")
 api.add_resource(Account, "/account")
 api.add_resource(Reviews, "/review")
-api.add_resource(Addproduct,"/product/<string:code_bar>", "/product")
-api.add_resource(Addcart, "/cart/<int:id>", "/cart")
-
+api.add_resource(Addproduct, "/product")
+api.add_resource(products, "/products/<int:id>")
+api.add_resource(Addcart, "/cart")
+api.add_resource(carts, "/carts/<int:id>")
 
