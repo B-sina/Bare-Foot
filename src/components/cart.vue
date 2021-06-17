@@ -103,7 +103,7 @@ export default {
     
 }
 </script>
-<style>
+<style scoped>
 .cart-row{padding:15px 0}
 .cart-row:nth-child(even){background:#efefef}
 .product-name{font-size:16px;font-weight:600}

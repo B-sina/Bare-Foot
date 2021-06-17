@@ -98,7 +98,7 @@ export default {
 
       },
       createUser(){
-        if(!this.full_name|| !this.password){
+        if(!this.full_name|| !this.email|| !this.password){
           this.error = "Please Fill all fields"
         }
         else{
@@ -128,7 +128,7 @@ export default {
 };
 
 </script>
-<style >
+<style scoped>
 * {
   box-sizing: border-box;
 }

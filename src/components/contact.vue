@@ -24,7 +24,7 @@
         <div class="col-md-6 m-auto text-center">
             <h1 class="h1">Contact Us</h1>
             <p>
-                We are a prominent dwo trying to do our best in the community we live in. If you
+                We are a prominent two trying to do our best in the community we live in. If you
                 have any questions just ask us through our socials.
             </p>
         </div>
@@ -33,20 +33,20 @@
     <!-- Start Contact -->
     <div class="container py-5">
         <div class="row py-5">
-            <form class="col-md-9 m-auto" method="post" role="form">
+            <form class="col-md-9 m-auto" action="https://formspree.io/f/xjvjrprq" method="POST" role="form">
                 <div class="row">
                     <div class="form-group col-md-6 mb-3">
                         <label for="inputname">Name</label>
-                        <input type="text" class="form-control mt-1" id="name" name="name" placeholder="Name">
+                        <input type="text" class="form-control mt-1" id="message" name="name" placeholder="Name">
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <label for="inputemail">Email</label>
-                        <input type="email" class="form-control mt-1" id="email" name="email" placeholder="Email">
+                        <input type="email" class="form-control mt-1" id="message" name="email" placeholder="Email">
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="inputsubject">Subject</label>
-                    <input type="text" class="form-control mt-1" id="subject" name="subject" placeholder="Subject">
+                    <input type="text" class="form-control mt-1" id="message" name="subject" placeholder="Subject">
                 </div>
                 <div class="mb-3">
                     <label for="inputmessage">Message</label>
@@ -57,6 +57,7 @@
                         <button type="submit" class="btn btn-success btn-lg px-3">Let’s Talk</button>
                     </div>
                 </div>
+                
             </form>
         </div>
     </div>
@@ -75,6 +76,38 @@ export default {
     
 }
 </script>
-<style>
+<style scoped>
+.message{
+    background-color: aliceblue;
+}
+#status.success{
+    padding: 10px;
+    background-color: aquamarine;
+    border-radius: 8px;
+    animation: status 4s ease forwards;
+}
+#status.error{
+    padding: 10px;
+    background-color: red;
+    color: black;
+    border-radius: 8px;
+    animation: status 4s ease forwards;
+}
+@keyframes status{
+    0%{
+        opacity: 1;
+        pointer-events:all;
 
+    }
+    90%{
+        opacity: 1;
+        pointer-events:all;
+
+    }
+    100%{
+        opacity: 1;
+        pointer-events:none;
+
+    }
+}
 </style>

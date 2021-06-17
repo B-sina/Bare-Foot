@@ -96,7 +96,7 @@ class Login(Resource):
                 login_user(user)
 
                 # user=current_user
-                return {"logged": "successfully!"}, 200
+                return {"message": "successfully!"}, 200
     
             else:
                 return {"message": "Invalid input."}, 422

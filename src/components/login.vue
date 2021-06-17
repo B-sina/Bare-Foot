@@ -69,44 +69,44 @@ export default {
     },
     onUpload() {},
     loginUser() {
-      const data = {
-        full_name: this.full_name,
-        password: this.password,
-        email: this.email,
-        error: null,
-      };
-      if (data.email || data.password) {
-        fetch("http://127.0.0.1:5100/login", {
+      // const data = {
+      //   password: this.password,
+      //   email: this.email,
+      //   error: null,
+      // };
+      fetch("http://127.0.0.1:5100/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            full_name: this.full_name,
-            password: this.password,
+
             email: this.email,
+            password: this.password
           }),
         })
           .then((resp) => resp.json())
-          .then((b) => {
-            console.log(b);
-            this.$router.push({
+          .then((data)=>{
+ if (!data.message ) {
+        console.log(data);
+          this.$router.push({
               name: "home",
             });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        
+        
         // kadfkj
        
       } else {
-         this.error = "Please Fill all fields";
+        
+         console.log('else');
       }
+          })
+     .catch((e)=>console.log(e))
     },
   },
 };
 </script>
-<style>
+<style scoped>
 * {
   box-sizing: border-box;
 }

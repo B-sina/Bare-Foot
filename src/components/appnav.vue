@@ -1,12 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
-      <a
-        class="navbar-brand text-success logo h1 align-self-center"
-        href="index.html"
-      >
-        Bado Eger
-      </a>
+      <router-link class="navbar-brand text-success logo h1 align-self-center" to="/" :class="activePage == 'home' ? 'active' : ''"
+                >Bado Eger</router-link
+              >
 
       <button
         class="navbar-toggler border-0"
@@ -102,7 +99,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
 }
 #templatemo_nav_top {

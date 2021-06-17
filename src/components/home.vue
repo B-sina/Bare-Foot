@@ -58,7 +58,7 @@
               <div class="col-lg-6 mb-0 d-flex align-items-center">
                 <div class="text-align-left align-self-center">
                   <h1 class="h1 text-success"><b> Bado Eger</b> eCommerce</h1>
-                  <h3 class="h2">Tiny and Perfect eCommerce Template</h3>
+                  <h3 class="h2">Tiny and Perfect Shoe Shopping</h3>
                   <p>
                     Bado Eger Shop is an eCommerce Website concerned with the
                     selling of premium shoes with great quality.
@@ -114,9 +114,9 @@
                 ></div>
               </div>
               <div class="card-body">
-                <h3>
+                <h3 >
                   <router-link
-                    class="link-style"
+                    class="link-style h3name"
                     :to="{ name: 'shops', params: { id: product.id } }"
                   >
                     {{ product.name }}
@@ -234,5 +234,9 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+.h3name{
+  text-decoration: none;
+  color: green;
+}
 </style>
