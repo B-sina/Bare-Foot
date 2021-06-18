@@ -206,6 +206,10 @@ export default {
   // components:{
 
   // },
+  mounted(){
+    this.$store.commit('updateCartFromLocalStoreage')
+
+  },
   data() {
     return {
       products: [],

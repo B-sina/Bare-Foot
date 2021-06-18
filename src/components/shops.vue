@@ -58,14 +58,21 @@
                                     <p class="text-muted"><strong>White / Black</strong></p>
                                 </li>
                             </ul>
+                            <div v-if="product_total" class="product_total">
+                                <h3> In Cart</h3>
+                                <h4> {{product_total}}</h4>
+                            </div>
 
-                            <form action="" method="GET">
+                            <div class="button-container">
+                                <button class="remove btn btn-danger" @click="removeFromCart()">Remove</button> 
+
+                                <button  class="add btn btn-info" @click="addToCart()">Add To Cart</button>
+                            </div>
+                            <!-- <form action="" method="GET">
                                 <input type="hidden" name="product-title" value="Activewear">
                                 
                                 <div class="row pb-3">
-                                    <!-- <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
-                                    </div> -->
+                                    
                                     <div class="col d-grid">
                                         <router-link
                     class="link-style"
@@ -76,7 +83,7 @@
                                         
                                     </div>
                                 </div>
-                            </form>
+                            </form> -->
 
                         </div>
                     </div>
@@ -95,19 +102,35 @@
 </template>
 <script>
 export default {
+
     name:"shops",
+      props:{
+        id:{
+            type:[Number, String], 
+            required:true
+        }
+
+    },
+    computed:{
+        product_total(){
+            return this.$store.getters.productQuantity(this.product)
+    },
+
+    },
     data() {
         return {
             product:{}
         }
     },
-    props:{
-        id:{
-            type:[Number, String], 
-            required:true
-        }
-    },
+  
+    
     methods: {
+        addToCart(){
+            this.$store.commit('addToCart' , this.product)
+        },
+        removeFromCart(){
+            this.$store.commit('removeFromCart', this.product)
+        },
         getproductsData(){
             fetch(`http://127.0.0.1:5100/products/${this.id}`, {
                 method: 'GET',

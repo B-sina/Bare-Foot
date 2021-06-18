@@ -42,9 +42,8 @@ const routes = [
     component:signup
   },
   {
-    path: '/cart/:id',
+    path: '/cart',
     name:'cart',
-    props:true,
     component:cart
   }
 

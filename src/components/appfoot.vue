@@ -1,4 +1,5 @@
 <template>
+
   <div id ="appfoot">
     <footer class="bg-transparent" id="tempaltemo_footer">
         <div class="container">
@@ -27,16 +28,16 @@
                         <h2 class="h2 text-dark border-bottom pb-3 border-light">Links</h2>
                         <ul class="list-inline text-left footer-icons">
                             <li class="list-inline-item border border-light rounded-circle text-center">
-                                <a class="text-dark text-decoration-none" target="_blank" href="http://facebook.com/"><Strong>F</Strong></a>
+                                <a class="text-dark text-decoration-none" target="_blank" href="https://www.facebook.com/dan.mekonnen.94"><i class="fab fa-facebook"></i></a>
                             </li>
                             <li class="list-inline-item border border-light rounded-circle text-center">
-                                <a class="text-dark text-decoration-none" target="_blank" href="https://www.instagram.com/"><Strong>I</Strong></a>
+                                <a class="text-dark text-decoration-none" target="_blank" href="https://www.instagram.com/sintayehu_sermessa/"><i class="fab fa-instagram"></i></a>
                             </li>
                             <li class="list-inline-item border border-light rounded-circle text-center">
-                                <a class="text-dark text-decoration-none" target="_blank" href="https://twitter.com/"><Strong>T</Strong></a>
+                                <a class="text-dark text-decoration-none" target="_blank" href="https://twitter.com/Dan_Mekonnen"><i class="fab fa-twitter"></i></a>
                             </li>
                             <li class="list-inline-item border border-light rounded-circle text-center">
-                                <a class="text-dark text-decoration-none" target="_blank" href="https://www.linkedin.com/"><Strong>L</Strong></a>
+                                <a class="text-dark text-decoration-none" target="_blank" href="https://www.linkedin.com/in/sintayehu-sermessa-185783209/"><i class="fab fa-linkedin"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -80,6 +81,7 @@
 
     </footer>
   </div>
+
 </template>
 
 <script>
